@@ -1,5 +1,5 @@
-import { useCallback, useEffect } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
@@ -8,7 +8,9 @@ import { Home } from "./src/Screens/Home";
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const routing = Home(true);
+  // const [isLogin, setIsLogin] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
@@ -28,5 +30,5 @@ export default function App() {
     SplashScreen.hideAsync();
   }
 
-  return <NavigationContainer>{routing}</NavigationContainer>;
+  return <NavigationContainer>{Home(isLogin)}</NavigationContainer>;
 }

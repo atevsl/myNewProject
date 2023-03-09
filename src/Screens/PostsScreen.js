@@ -1,10 +1,14 @@
 import React from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { Text, StyleSheet, View, Image, RootTagContext } from "react-native";
 
 const PostsScreen = () => {
   return (
     <View style={styles.container}>
-      <Text>this is PostsScreen</Text>
+      <Image style={styles.userPhoto} />
+      <View>
+        <Text>Name</Text>
+        <Text>email@com</Text>
+      </View>
     </View>
   );
 };
@@ -12,7 +16,16 @@ const PostsScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
+    flexDirection: "row",
+    marginTop: 20,
+    marginLeft: 20,
+  },
+  userPhoto: {
+    width: 60,
+    height: 60,
+    backgroundColor: "grey",
+    borderRadius: 16,
+    marginRight: 10,
   },
 });
 

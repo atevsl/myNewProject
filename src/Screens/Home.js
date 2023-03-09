@@ -37,13 +37,13 @@ export const Home = (isAuth) => {
           let iconName = "check";
 
           if (route.name === "PostsScreen") {
-            iconName = focused ? "appstore-o" : "appstore1";
+            iconName = focused ? "appstore1" : "appstore-o";
           }
           if (route.name === "ProfileScreen") {
             iconName = focused ? "user" : "user";
           }
           if (route.name === "CreatePostsScreen") {
-            iconName = focused ? "pluscircleo" : "pluscircle";
+            iconName = focused ? "pluscircle" : "pluscircleo";
           }
 
           console.log("iconName", iconName);

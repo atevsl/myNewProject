@@ -95,6 +95,8 @@ const LoginScreen = ({ navigation }) => {
                     setIsEmailFocus(false);
                     setIsPasswordFocus(false);
                     console.log(state);
+
+                    navigation.navigate("PostsScreen");
                     setState(initialState);
                   }}
                 >
