@@ -3,12 +3,12 @@ import { NavigationContainer } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import { useRoute } from "./router";
+import { Home } from "./src/Screens/Home";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const routing = useRoute(true);
+  const routing = Home(true);
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
