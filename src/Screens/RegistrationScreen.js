@@ -19,9 +19,9 @@ const initialState = {
 
 const RegistrationScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
-  const [islogin, setIslogin] = useState(false);
-  const [isEmail, setIsEmail] = useState(false);
-  const [isPassword, setPassword] = useState(false);
+  const [isloginFocus, setIsloginFocus] = useState(false);
+  const [isEmailFocus, setIsEmailFocus] = useState(false);
+  const [isPasswordFocus, setPasswordFocus] = useState(false);
   const [state, setState] = useState(initialState);
 
   return (
@@ -30,9 +30,9 @@ const RegistrationScreen = ({ navigation }) => {
         onPress={() => {
           Keyboard.dismiss();
           setIsShowKeyboard(false);
-          setPassword(false);
-          setIsEmail(false);
-          setIslogin(false);
+          setPasswordFocus(false);
+          setIsEmailFocus(false);
+          setIsloginFocus(false);
         }}
       >
         <ImageBackground
@@ -44,9 +44,9 @@ const RegistrationScreen = ({ navigation }) => {
             onPress={() => {
               Keyboard.dismiss();
               setIsShowKeyboard(false);
-              setPassword(false);
-              setIsEmail(false);
-              setIslogin(false);
+              setPasswordFocus(false);
+              setIsEmailFocus(false);
+              setIsloginFocus(false);
             }}
           >
             <KeyboardAvoidingView behavior={Platform.OS === "ios" && "padding"}>
@@ -66,14 +66,14 @@ const RegistrationScreen = ({ navigation }) => {
                   value={state.login}
                   style={{
                     ...styles.input,
-                    borderColor: islogin ? "#FF6C00" : "#E8E8E8",
-                    backgroundColor: islogin ? "#fff" : "#F6F6F6",
+                    borderColor: isloginFocus ? "#FF6C00" : "#E8E8E8",
+                    backgroundColor: isloginFocus ? "#fff" : "#F6F6F6",
                   }}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIslogin(true);
-                    setPassword(false);
-                    setIsEmail(false);
+                    setIsloginFocus(true);
+                    setPasswordFocus(false);
+                    setIsEmailFocus(false);
                   }}
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, login: value }))
@@ -85,14 +85,14 @@ const RegistrationScreen = ({ navigation }) => {
                   value={state.email}
                   style={{
                     ...styles.input,
-                    borderColor: isEmail ? "#FF6C00" : "#E8E8E8",
-                    backgroundColor: isEmail ? "#fff" : "#F6F6F6",
+                    borderColor: isEmailFocus ? "#FF6C00" : "#E8E8E8",
+                    backgroundColor: isEmailFocus ? "#fff" : "#F6F6F6",
                   }}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setIsEmail(true);
-                    setIslogin(false);
-                    setPassword(false);
+                    setIsEmailFocus(true);
+                    setIsloginFocus(false);
+                    setPasswordFocus(false);
                   }}
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, email: value }))
@@ -104,14 +104,15 @@ const RegistrationScreen = ({ navigation }) => {
                   value={state.password}
                   style={{
                     ...styles.input,
-                    borderColor: isPassword ? "#FF6C00" : "#E8E8E8",
-                    backgroundColor: isPassword ? "#fff" : "#F6F6F6",
+                    borderColor: isPasswordFocus ? "#FF6C00" : "#E8E8E8",
+                    backgroundColor: isPasswordFocus ? "#fff" : "#F6F6F6",
                   }}
+                  secureTextEntry={true}
                   onFocus={() => {
                     setIsShowKeyboard(true);
-                    setPassword(true);
-                    setIsEmail(false);
-                    setIslogin(false);
+                    setPasswordFocus(true);
+                    setIsEmailFocus(false);
+                    setIsloginFocus(false);
                   }}
                   onChangeText={(value) =>
                     setState((prevState) => ({ ...prevState, password: value }))
@@ -123,14 +124,13 @@ const RegistrationScreen = ({ navigation }) => {
                   style={styles.btnRegistration}
                   onPress={() => {
                     setIsShowKeyboard(false);
-                    setPassword(false);
-                    setIsEmail(false);
-                    setIslogin(false);
+                    setPasswordFocus(false);
+                    setIsEmailFocus(false);
+                    setIsloginFocus(false);
                     Keyboard.dismiss();
                     console.log("state from Registration screen", state);
 
-                    navigation.navigate("LoginScreen");
-                    // setState(initialState);
+                    navigation.navigate("Home", { state });
                   }}
                 >
                   <Text style={styles.btnRegistrationTitle}>

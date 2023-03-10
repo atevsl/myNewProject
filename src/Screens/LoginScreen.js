@@ -90,12 +90,11 @@ const LoginScreen = ({ navigation }) => {
                   style={styles.btnLogin}
                   onPress={() => {
                     setIsShowKeyboard(false);
-                    Keyboard.dismiss();
                     setIsEmailFocus(false);
                     setIsPasswordFocus(false);
-                    console.log("Login State:", state);
+                    Keyboard.dismiss();
+                    console.log("state from  Login screen:", state);
                     navigation.navigate("Home", { state });
-                    // setState(initialState);
                   }}
                 >
                   <Text style={styles.btnLoginTitle}>Войти</Text>

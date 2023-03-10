@@ -7,9 +7,12 @@ import CreatePostsScreen from "./CreatePostsScreen";
 
 // icons import
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+
 const HomeTabs = createBottomTabNavigator();
-const Home = ({ navigation }) => {
+const Home = ({ navigation, route }) => {
+  console.log("navigation in Home"), navigation;
+  console.log("route in Home"), route;
+
   return (
     <HomeTabs.Navigator
       screenOptions={({ route }) => ({

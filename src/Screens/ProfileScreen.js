@@ -51,7 +51,7 @@ const ProfileScreen = () => {
         <View style={styles.form}>
           <View style={styles.avatar}>
             <TouchableOpacity activeOpacity={0.8} style={styles.avatarBtn}>
-              <Text style={styles.avatarBtnTitle}>*</Text>
+              <Text style={styles.avatarBtnTitle}>+</Text>
             </TouchableOpacity>
           </View>
           <Text style={styles.name}>Name</Text>
@@ -84,20 +84,42 @@ const ProfileScreen = () => {
               {posts.map((post) => {
                 return (
                   <View key={post.id}>
+                    {/* {post.href}?
                     <Image
-                      // source={require("{post.href}")}
                       source={post.href}
                       resizeMode="cover"
                       style={styles.postPhoto}
                     />
-                    <View style={styles.postDescription}>
+                    : */}
+                    <Image
+                      source={require("../../assets/defPost.jpg")}
+                      resizeMode="cover"
+                      style={styles.postPhoto}
+                    />
+                    <View style={styles.postTitle}>
                       <Text>{post.title}</Text>
-                      <AntDesign name="message1" size={24} color="black" />
-                      <Text>{post.comments}</Text>
-                      <AntDesign name="like2" size={24} color="black" />
-                      <Text>{post.likes}</Text>
-                      <AntDesign name="enviromento" size={24} color="black" />
-                      <Text>{post.location}</Text>
+                      <View style={styles.postDescription}>
+                        <View style={styles.postDescWrap}>
+                          <AntDesign name="message1" size={24} color="black" />
+                          <Text style={{ marginLeft: 10 }}>
+                            {post.comments}
+                          </Text>
+                        </View>
+                        <View style={styles.postDescWrap}>
+                          <AntDesign name="like2" size={24} color="black" />
+                          <Text style={{ marginLeft: 10 }}>{post.likes}</Text>
+                        </View>
+                        <View style={styles.postDescWrap}>
+                          <AntDesign
+                            name="enviromento"
+                            size={24}
+                            color="black"
+                          />
+                          <Text style={{ marginLeft: 10 }}>
+                            {post.location}
+                          </Text>
+                        </View>
+                      </View>
                     </View>
                   </View>
                 );
@@ -121,7 +143,7 @@ const styles = StyleSheet.create({
   },
   form: {
     backgroundColor: "#fff",
-    height: 550,
+    height: 650,
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
     padding: 16,
@@ -147,8 +169,8 @@ const styles = StyleSheet.create({
   avatarBtnTitle: {
     color: "grey",
     fontSize: 25,
-    marginTop: -4,
-    marginLeft: 6,
+    marginTop: -6,
+    marginLeft: 5,
   },
   name: {
     textAlign: "center",
@@ -161,7 +183,12 @@ const styles = StyleSheet.create({
     marginTop: 32,
     marginBottom: 8,
   },
+  postTitle: {},
   postDescription: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  postDescWrap: {
     flexDirection: "row",
   },
 });
