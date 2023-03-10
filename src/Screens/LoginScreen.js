@@ -16,7 +16,6 @@ const initialState = {
   email: "",
   password: "",
 };
-
 const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isEmailFocus, setIsEmailFocus] = useState(false);
@@ -94,10 +93,9 @@ const LoginScreen = ({ navigation }) => {
                     Keyboard.dismiss();
                     setIsEmailFocus(false);
                     setIsPasswordFocus(false);
-                    console.log(state);
-
-                    navigation.navigate("PostsScreen");
-                    setState(initialState);
+                    console.log("Login State:", state);
+                    navigation.navigate("Home", { state });
+                    // setState(initialState);
                   }}
                 >
                   <Text style={styles.btnLoginTitle}>Войти</Text>
@@ -170,7 +168,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     textAlign: "center",
     marginTop: 16,
-    // fontFamily: "Roboto-Bolt",
   },
 });
 

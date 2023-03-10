@@ -1,35 +1,15 @@
 import React from "react";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
 import PostsScreen from "./PostsScreen";
 import ProfileScreen from "./ProfileScreen";
 import CreatePostsScreen from "./CreatePostsScreen";
-import LoginScreen from "./LoginScreen";
-import RegistrationScreen from "./RegistrationScreen";
+
 // icons import
 import AntDesign from "@expo/vector-icons/AntDesign";
-
-const AuthStack = createStackNavigator();
+import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 const HomeTabs = createBottomTabNavigator();
-
-export const Home = (isAuth) => {
-  if (!isAuth) {
-    return (
-      <AuthStack.Navigator>
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="LoginScreen"
-          component={LoginScreen}
-        />
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="RegistrationScreen"
-          component={RegistrationScreen}
-        />
-      </AuthStack.Navigator>
-    );
-  }
+const Home = ({ navigation }) => {
   return (
     <HomeTabs.Navigator
       screenOptions={({ route }) => ({
@@ -59,3 +39,5 @@ export const Home = (isAuth) => {
     </HomeTabs.Navigator>
   );
 };
+
+export default Home;
