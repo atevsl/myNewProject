@@ -1,10 +1,8 @@
 import React from "react";
-import { Text, StyleSheet, View, Image, RootTagContext } from "react-native";
+import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
-const PostsScreen = () => {
-  // console.log("navigation", navigation);
-  // console.log("route", route.params);
-
+const PostsScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <Image
@@ -15,6 +13,15 @@ const PostsScreen = () => {
         <Text style={styles.userName}>Name</Text>
         <Text style={styles.userEmail}>email@com</Text>
       </View>
+      <TouchableOpacity
+        activeOpacity={0.8}
+        style={styles.btnLogOut}
+        onPress={() => {
+          navigation.navigate("LoginScreen");
+        }}
+      >
+        <AntDesign name="logout" size={24} color="black" />
+      </TouchableOpacity>
     </View>
   );
 };
@@ -26,6 +33,10 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     paddingTop: 20,
     paddingLeft: 20,
+  },
+  btnLogOut: {
+    paddingLeft: 200,
+    paddingTop: 15,
   },
   userPhoto: {
     width: 60,

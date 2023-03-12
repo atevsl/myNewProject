@@ -95,6 +95,7 @@ const LoginScreen = ({ navigation }) => {
                     Keyboard.dismiss();
                     console.log("state from  Login screen:", state);
                     navigation.navigate("Home", { customState: state });
+                    setState(initialState);
                   }}
                 >
                   <Text style={styles.btnLoginTitle}>Войти</Text>

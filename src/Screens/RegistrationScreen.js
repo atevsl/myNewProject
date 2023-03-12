@@ -130,7 +130,8 @@ const RegistrationScreen = ({ navigation }) => {
                     Keyboard.dismiss();
                     console.log("state from Registration screen", state);
 
-                    navigation.navigate("Home", { state });
+                    navigation.navigate("Home", { customState: state });
+                    setState(initialState);
                   }}
                 >
                   <Text style={styles.btnRegistrationTitle}>

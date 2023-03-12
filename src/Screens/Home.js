@@ -28,8 +28,6 @@ const Home = ({ navigation, route }) => {
           if (route.name === "CreatePostsScreen") {
             iconName = focused ? "pluscircle" : "pluscircleo";
           }
-
-          console.log("iconName", iconName);
           return <AntDesign name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: "#FF6C00",
