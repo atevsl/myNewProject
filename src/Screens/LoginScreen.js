@@ -94,7 +94,7 @@ const LoginScreen = ({ navigation }) => {
                     setIsPasswordFocus(false);
                     Keyboard.dismiss();
                     console.log("state from  Login screen:", state);
-                    navigation.navigate("Home", { state });
+                    navigation.navigate("Home", { customState: state });
                   }}
                 >
                   <Text style={styles.btnLoginTitle}>Войти</Text>

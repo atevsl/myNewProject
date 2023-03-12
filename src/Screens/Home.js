@@ -10,12 +10,12 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 const HomeTabs = createBottomTabNavigator();
 const Home = ({ navigation, route }) => {
-  console.log("navigation in Home"), navigation;
-  console.log("route in Home"), route;
+  console.log("navigation in Home", navigation);
+  console.log("route in Home", route);
 
   return (
     <HomeTabs.Navigator
-      screenOptions={({ route }) => ({
+      screenOptions={({ navigation, route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName = "check";
 

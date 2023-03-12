@@ -34,7 +34,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <AuthStack.Navigator>
-        {/* <AuthStack.Screen
+        <AuthStack.Screen
           options={{ headerShown: false }}
           name="LoginScreen"
           component={LoginScreen}
@@ -43,7 +43,7 @@ export default function App() {
           options={{ headerShown: false }}
           name="RegistrationScreen"
           component={RegistrationScreen}
-        /> */}
+        />
         <AuthStack.Screen
           options={{ headerShown: false }}
           name="Home"
