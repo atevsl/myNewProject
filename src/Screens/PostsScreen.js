@@ -2,7 +2,8 @@ import React from "react";
 import { Text, StyleSheet, View, Image, TouchableOpacity } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 
-const PostsScreen = ({ navigation }) => {
+const PostsScreen = ({ navigation, route }) => {
+  console.log("route in posts screen", route);
   return (
     <View style={styles.container}>
       <Image
@@ -10,7 +11,7 @@ const PostsScreen = ({ navigation }) => {
         source={require("../../assets/noUser.jpg")}
       />
       <View style={styles.userDeckription}>
-        <Text style={styles.userName}>Name</Text>
+        <Text style={styles.userName}>{route.params}</Text>
         <Text style={styles.userEmail}>email@com</Text>
       </View>
       <TouchableOpacity

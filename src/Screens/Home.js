@@ -34,7 +34,10 @@ const Home = ({ navigation, route }) => {
         tabBarInactiveTintColor: "#212121",
       })}
     >
-      <HomeTabs.Screen name="PostsScreen" component={PostsScreen} />
+      <HomeTabs.Screen
+        name="PostsScreen"
+        component={(PostsScreen, { route })}
+      />
       <HomeTabs.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
       <HomeTabs.Screen name="ProfileScreen" component={ProfileScreen} />
     </HomeTabs.Navigator>
