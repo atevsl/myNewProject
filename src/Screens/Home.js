@@ -10,8 +10,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 const HomeTabs = createBottomTabNavigator();
 const Home = ({ navigation, route }) => {
-  console.log("navigation in Home", navigation);
   console.log("route in Home", route);
+  console.log("custom state in Home", route.params.customState);
 
   return (
     <HomeTabs.Navigator
@@ -34,9 +34,17 @@ const Home = ({ navigation, route }) => {
         tabBarInactiveTintColor: "#212121",
       })}
     >
-      <HomeTabs.Screen name="PostsScreen" component={PostsScreen} />
+      <HomeTabs.Screen
+        name="PostsScreen"
+        component={PostsScreen}
+        initialParams={route.params.customState}
+      />
       <HomeTabs.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
-      <HomeTabs.Screen name="ProfileScreen" component={ProfileScreen} />
+      <HomeTabs.Screen
+        name="ProfileScreen"
+        component={ProfileScreen}
+        initialParams={route.params.customState}
+      />
     </HomeTabs.Navigator>
   );
 };

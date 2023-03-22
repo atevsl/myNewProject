@@ -39,7 +39,7 @@ const POSTS = [
   },
 ];
 
-const ProfileScreen = () => {
+const ProfileScreen = ({ navigation, route }) => {
   const [posts, setPosts] = useState(POSTS);
   return (
     <View style={styles.container}>
@@ -51,46 +51,28 @@ const ProfileScreen = () => {
         <View style={styles.form}>
           <View style={styles.avatar}>
             <TouchableOpacity activeOpacity={0.8} style={styles.avatarBtn}>
-              <Text style={styles.avatarBtnTitle}>+</Text>
+              <AntDesign
+                style={styles.avatarBtnTitle}
+                name="pluscircleo"
+                size={24}
+                color="black"
+              />
             </TouchableOpacity>
           </View>
-          <Text style={styles.name}>Name</Text>
+          <View style={styles.userDeckription}>
+            {route.params.login && (
+              <Text style={styles.name}>{route.params.login}</Text>
+            )}
+            {route.params.email && (
+              <Text style={styles.userEmail}>{route.params.email}</Text>
+            )}
+          </View>
 
           <SafeAreaView style={styles.container}>
-            {/* <FlatList
-              data={posts}
-              renderItem={({ post }) => (
-                <View>
-                  <Image
-                    // source={require("{post.href}")}
-                    source={post.href}
-                    resizeMode="cover"
-                    style={styles.postPhoto}
-                  />
-                  <View style={styles.postDescription}>
-                    <Text>{post.title}</Text>
-                    <AntDesign name="message1" size={24} color="black" />
-                    <Text>{post.comments}</Text>
-                    <AntDesign name="like2" size={24} color="black" />
-                    <Text>{post.likes}</Text>
-                    <AntDesign name="enviromento" size={24} color="black" />
-                    <Text>{post.location}</Text>
-                  </View>
-                </View>
-              )}
-              keyExtractor={(post) => post.id}
-            /> */}
             <ScrollView>
               {posts.map((post) => {
                 return (
                   <View key={post.id}>
-                    {/* {post.href}?
-                    <Image
-                      source={post.href}
-                      resizeMode="cover"
-                      style={styles.postPhoto}
-                    />
-                    : */}
                     <Image
                       source={require("../../assets/defPost.jpg")}
                       resizeMode="cover"
@@ -162,15 +144,9 @@ const styles = StyleSheet.create({
     height: 25,
     marginTop: 81,
     marginLeft: 119.5,
-    borderColor: "grey",
-    borderWidth: 1,
-    borderRadius: 15,
   },
   avatarBtnTitle: {
     color: "grey",
-    fontSize: 25,
-    marginTop: -6,
-    marginLeft: 5,
   },
   name: {
     textAlign: "center",
@@ -191,6 +167,10 @@ const styles = StyleSheet.create({
   postDescWrap: {
     flexDirection: "row",
   },
+  userDeckription: {
+    paddingTop: 10,
+  },
+  userEmail: { fontSize: 11, fontFamily: "Roboto-Regular" },
 });
 
 export default ProfileScreen;
