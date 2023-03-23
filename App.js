@@ -5,8 +5,8 @@ import * as SplashScreen from "expo-splash-screen";
 
 import Home from "./src/Screens/Home";
 import { createStackNavigator } from "@react-navigation/stack";
-import RegistrationScreen from "./src/Screens/RegistrationScreen";
-import LoginScreen from "./src/Screens/LoginScreen";
+import RegistrationScreen from "./src/Auth/RegistrationScreen";
+import LoginScreen from "./src/Auth/LoginScreen";
 
 SplashScreen.preventAutoHideAsync();
 
