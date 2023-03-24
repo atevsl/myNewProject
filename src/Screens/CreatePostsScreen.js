@@ -10,7 +10,7 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import * as MediaLibrary from "expo-media-library";
+// import * as MediaLibrary from "expo-media-library";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
@@ -21,7 +21,7 @@ const CreatePostsScreen = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      await MediaLibrary.requestPermissionsAsync();
+      // await MediaLibrary.requestPermissionsAsync();
       const locationStatus = await Location.requestForegroundPermissionsAsync();
       if (status === "granted" && locationStatus.status === "granted") {
         console.log("Permission granted");
@@ -38,8 +38,8 @@ const CreatePostsScreen = ({ navigation }) => {
     // }
 
     // Get the user's current location
-    const { coords } = await Location.getCurrentPositionAsync({});
-    console.log("coords", coords);
+    // const { coords } = await Location.getCurrentPositionAsync({});
+    // console.log("coords", coords);
 
     const photo = await camera.takePictureAsync();
     // const location = await Location.getCurrentPositionAsync();

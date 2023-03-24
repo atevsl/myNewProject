@@ -52,36 +52,37 @@ const Default = ({ navigation, route }) => {
             <View style={styles.photoContainer}>
               <Image
                 source={{ uri: item.photo }}
-                // source={require({ item.photo })}
-                // require('../assets/images/emoji1.png')
                 style={{
                   height: 100,
                   backgroundColor: "white",
                   marginHorizontal: 10,
                 }}
               />
-              <Text style={{ fontSize: 8, color: "black" }}>{item.photo}</Text>
-              <Text style={{ fontSize: 16, color: "black" }}>{item.title}</Text>
-              <TouchableOpacity
-                style={styles.photoDescription}
-                activeOpacity={0.8}
-                onPress={() => {
-                  navigation.navigate("MapScreen");
-                }}
-              >
-                <FontAwesome name="map-marker" size={24} color="black" />
-                <Text style={{ color: "black" }}>map</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={styles.photoDescription}
-                activeOpacity={0.8}
-                onPress={() => {
-                  navigation.navigate("CommentsScreen");
-                }}
-              >
-                <FontAwesome name="comments-o" size={24} color="black" />
-                <Text>123</Text>
-              </TouchableOpacity>
+              <Text style={{ fontSize: 16, color: "black", padding: 10 }}>
+                {item.title}
+              </Text>
+              <View style={styles.photoDescriptionWraper}>
+                <TouchableOpacity
+                  style={styles.photoDescription}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    navigation.navigate("CommentsScreen");
+                  }}
+                >
+                  <FontAwesome name="comments-o" size={24} color="black" />
+                  <Text>123</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.photoDescription}
+                  activeOpacity={0.8}
+                  onPress={() => {
+                    navigation.navigate("MapScreen");
+                  }}
+                >
+                  <FontAwesome name="map-marker" size={24} color="black" />
+                  <Text style={{ color: "black" }}>map</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           )}
         />
@@ -122,16 +123,18 @@ const styles = StyleSheet.create({
   userEmail: { fontSize: 11, fontFamily: "Roboto-Regular" },
   photoContainer: {
     marginHorizontal: 10,
-    marginBottom: 50,
-    border: 1,
-    borderColor: "black",
+    marginBottom: 30,
     height: 150,
-    borderColor: "black",
-    borderWidth: 1,
   },
   photoDescription: {
     display: "flex",
     flexDirection: "row",
+  },
+  photoDescriptionWraper: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginHorizontal: 10,
   },
 });
 
