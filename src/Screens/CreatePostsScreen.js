@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -10,20 +10,36 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import * as MediaLibrary from "expo-media-library";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [title, setTitle] = useState("");
+  const [location, setLocation] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      await MediaLibrary.requestPermissionsAsync();
+      const locationStatus = await Location.requestForegroundPermissionsAsync();
+      if (status === "granted" && locationStatus.status === "granted") {
+        console.log("Permission granted");
+      } else console.log("Permission to access location was denied");
+    })();
+  }, []);
 
   const takePhoto = async () => {
-    // let { status } = await Location.requestForegroundPermissionsAsync();
-    // if (status !== "granted") {
-    // setErrorMsg("Permission to access location was denied");
-    // console.log("Permission to access location was denied");
+    // const { status } = await Location.requestForegroundPermissionsAsync();
 
-    // return;
+    // if (status !== "granted") {
+    //   console.log("Permission to access location was denied");
+    //   return;
     // }
+
+    // Get the user's current location
+    const { coords } = await Location.getCurrentPositionAsync({});
+    console.log("coords", coords);
 
     const photo = await camera.takePictureAsync();
     // const location = await Location.getCurrentPositionAsync();
@@ -52,11 +68,7 @@ const CreatePostsScreen = ({ navigation }) => {
           <AntDesign name="camera" size={24} color="white" />
         </TouchableOpacity>
       </Camera>
-      {/* <Image
-        source={require("../../assets/defPost.jpg")}
-        resizeMode="cover"
-        style={styles.postPhoto}
-      /> */}
+
       <Text style={styles.textLoad}>Загрузите фото</Text>
       <TextInput
         style={styles.inputLoad}
@@ -81,13 +93,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
   },
-  // postPhoto: {
-  //   width: 343,
-  //   height: 240,
-  //   borderRadius: 10,
-  //   marginTop: 32,
-  //   marginBottom: 8,
-  // },
+
   textLoad: {
     marginBottom: 48,
     width: 343,

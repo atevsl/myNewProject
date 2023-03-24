@@ -51,7 +51,7 @@ const Default = ({ navigation, route }) => {
           renderItem={({ item }) => (
             <View style={styles.photoContainer}>
               <Image
-                source={item.photo}
+                source={{ uri: item.photo }}
                 // source={require({ item.photo })}
                 // require('../assets/images/emoji1.png')
                 style={{
