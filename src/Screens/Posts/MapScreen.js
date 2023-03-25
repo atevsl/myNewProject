@@ -8,10 +8,10 @@ const MapScreen = () => {
       <MapView
         style={styles.mapStyle}
         region={{
-          latitude: 37.78825,
-          longitude: -122.4324,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
+          latitude: 50.5079,
+          longitude: 30.9266,
+          latitudeDelta: 1,
+          longitudeDelta: 0.5,
         }}
         mapType="standard"
         minZoomLevel={15}
@@ -20,7 +20,7 @@ const MapScreen = () => {
       >
         <Marker
           title="I am here"
-          coordinate={{ latitude: 37.78825, longitude: -122.4324 }}
+          coordinate={{ latitude: 50.5079, longitude: 30.9266 }}
           description="Hello"
         />
       </MapView>

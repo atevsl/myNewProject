@@ -10,7 +10,6 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
-// import * as MediaLibrary from "expo-media-library";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
@@ -21,8 +20,14 @@ const CreatePostsScreen = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      // await MediaLibrary.requestPermissionsAsync();
       const locationStatus = await Location.requestForegroundPermissionsAsync();
+      console.log("Location", Location);
+      console.log("locationStatus", locationStatus);
+      const location = await Location.getCurrentPositionAsync();
+      console.log("location", location);
+      console.log("location.coords", location.coords);
+      console.log("latitude", location.coords.latitude);
+      console.log("longitude", location.coords.longitude);
       if (status === "granted" && locationStatus.status === "granted") {
         console.log("Permission granted");
       } else console.log("Permission to access location was denied");
@@ -30,23 +35,12 @@ const CreatePostsScreen = ({ navigation }) => {
   }, []);
 
   const takePhoto = async () => {
-    // const { status } = await Location.requestForegroundPermissionsAsync();
-
-    // if (status !== "granted") {
-    //   console.log("Permission to access location was denied");
-    //   return;
-    // }
-
-    // Get the user's current location
-    // const { coords } = await Location.getCurrentPositionAsync({});
-    // console.log("coords", coords);
-
     const photo = await camera.takePictureAsync();
-    // const location = await Location.getCurrentPositionAsync();
-    // console.log("latitude", location.coords.latitude);
-    // console.log("longitude", location.coords.longitude);
     console.log("photo.uri in takephoto func: ", photo.uri);
     setPhoto(photo.uri);
+    const location = await Location.getCurrentPositionAsync();
+    console.log("latitude", location.coords.latitude);
+    console.log("longitude", location.coords.longitude);
   };
 
   const sendPhoto = () => {

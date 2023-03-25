@@ -7,6 +7,8 @@ import Home from "./src/Screens/Home";
 import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "./src/Auth/RegistrationScreen";
 import LoginScreen from "./src/Auth/LoginScreen";
+import { Provider } from "react-redux";
+import { store } from "./redux/store";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,24 +34,26 @@ export default function App() {
   const AuthStack = createStackNavigator();
 
   return (
-    <NavigationContainer>
-      <AuthStack.Navigator>
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="LoginScreen"
-          component={LoginScreen}
-        />
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="RegistrationScreen"
-          component={RegistrationScreen}
-        />
-        <AuthStack.Screen
-          options={{ headerShown: false }}
-          name="Home"
-          component={Home}
-        />
-      </AuthStack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      <NavigationContainer>
+        <AuthStack.Navigator>
+          <AuthStack.Screen
+            options={{ headerShown: false }}
+            name="LoginScreen"
+            component={LoginScreen}
+          />
+          <AuthStack.Screen
+            options={{ headerShown: false }}
+            name="RegistrationScreen"
+            component={RegistrationScreen}
+          />
+          <AuthStack.Screen
+            options={{ headerShown: false }}
+            name="Home"
+            component={Home}
+          />
+        </AuthStack.Navigator>
+      </NavigationContainer>
+    </Provider>
   );
 }
