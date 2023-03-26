@@ -8,7 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 const NestedScreen = createStackNavigator();
 
 const PostsScreen = ({ route }) => {
-  console.log("route.params in posts screen", route.params);
+  // console.log("route.params in posts screen", route.params);
 
   return (
     <NestedScreen.Navigator>

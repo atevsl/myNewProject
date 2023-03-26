@@ -11,6 +11,10 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+
+import { authSignUpUser } from "../../redux/auth/authOperation";
+
 const initialState = {
   login: "",
   email: "",
@@ -23,6 +27,8 @@ const RegistrationScreen = ({ navigation }) => {
   const [isEmailFocus, setIsEmailFocus] = useState(false);
   const [isPasswordFocus, setPasswordFocus] = useState(false);
   const [state, setState] = useState(initialState);
+
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -128,8 +134,8 @@ const RegistrationScreen = ({ navigation }) => {
                     setIsEmailFocus(false);
                     setIsloginFocus(false);
                     Keyboard.dismiss();
-                    console.log("state from Registration screen", state);
-
+                    // console.log("state from Registration screen", state);
+                    dispatch(authSignUpUser(state));
                     navigation.navigate("Home", { customState: state });
                     setState(initialState);
                   }}

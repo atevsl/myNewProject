@@ -10,8 +10,8 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 
 const HomeTabs = createBottomTabNavigator();
 const Home = ({ navigation, route }) => {
-  console.log("route in Home", route);
-  console.log("custom state in Home", route.params.customState);
+  // console.log("route in Home", route);
+  // console.log("custom state in Home", route.params.customState);
 
   return (
     <HomeTabs.Navigator
