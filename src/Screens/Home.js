@@ -37,13 +37,13 @@ const Home = ({ navigation, route }) => {
       <HomeTabs.Screen
         name="PostsScreen"
         component={PostsScreen}
-        initialParams={route.params.customState}
+        // initialParams={route.params.customState}
       />
       <HomeTabs.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
       <HomeTabs.Screen
         name="ProfileScreen"
         component={ProfileScreen}
-        initialParams={route.params.customState}
+        // initialParams={route.params.customState}
       />
     </HomeTabs.Navigator>
   );

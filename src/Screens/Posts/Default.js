@@ -11,14 +11,16 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Default = ({ navigation, route }) => {
-  const [posts, setPosts] = useState([]);
+  // const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState(null);
+
   console.log("route.params in Default", route.params);
-  useEffect(() => {
-    if (route.params.post) {
-      setPosts((prevState) => [...prevState, route.params.post]);
-    }
-  }, [route.params]);
-  console.log("posts", posts);
+  // useEffect(() => {
+  //   if (route.params.post) {
+  //     setPosts((prevState) => [...prevState, route.params.post]);
+  //   }
+  // }, [route.params]);
+  // console.log("posts", posts);
   return (
     <View style={styles.container}>
       <View style={styles.containerTitle}>
@@ -27,12 +29,13 @@ const Default = ({ navigation, route }) => {
           source={require("../../../assets/noUser.jpg")}
         />
         <View style={styles.userDeckription}>
-          {route.params.login && (
+          {/* {route.params.login && (
             <Text style={styles.userName}>{route.params.login}</Text>
           )}
           {route.params.email && (
             <Text style={styles.userEmail}>{route.params.email}</Text>
-          )}
+          )} */}
+          <Text style={styles.userEmail}>login</Text>
         </View>
         <TouchableOpacity
           activeOpacity={0.8}

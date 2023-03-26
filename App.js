@@ -10,9 +10,13 @@ import LoginScreen from "./src/Auth/LoginScreen";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
+import { auth } from "./firebase/config";
+
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
     "Roboto-Bold": require("./assets/fonts/Roboto-Bold.ttf"),
@@ -33,25 +37,57 @@ export default function App() {
   }
   const AuthStack = createStackNavigator();
 
+  auth.onAuthStateChanged((user) => {
+    console.log("user in app", user);
+    setUser(user);
+  });
+
+  // if (user===null)  {}
+
   return (
     <Provider store={store}>
       <NavigationContainer>
         <AuthStack.Navigator>
-          <AuthStack.Screen
-            options={{ headerShown: false }}
-            name="LoginScreen"
-            component={LoginScreen}
-          />
-          <AuthStack.Screen
-            options={{ headerShown: false }}
-            name="RegistrationScreen"
-            component={RegistrationScreen}
-          />
-          <AuthStack.Screen
-            options={{ headerShown: false }}
-            name="Home"
-            component={Home}
-          />
+          {user === null && (
+            <>
+              <AuthStack.Screen
+                options={{ headerShown: false }}
+                name="LoginScreen"
+                component={LoginScreen}
+              />
+
+              <AuthStack.Screen
+                options={{ headerShown: false }}
+                name="RegistrationScreen"
+                component={RegistrationScreen}
+              />
+              <AuthStack.Screen
+                options={{ headerShown: false }}
+                name="Home"
+                component={Home}
+              />
+            </>
+          )}
+          {user && (
+            <>
+              <AuthStack.Screen
+                options={{ headerShown: false }}
+                name="Home"
+                component={Home}
+              />
+              <AuthStack.Screen
+                options={{ headerShown: false }}
+                name="LoginScreen"
+                component={LoginScreen}
+              />
+
+              <AuthStack.Screen
+                options={{ headerShown: false }}
+                name="RegistrationScreen"
+                component={RegistrationScreen}
+              />
+            </>
+          )}
         </AuthStack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -12,16 +12,20 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
+import { useDispatch } from "react-redux";
+import { authSignInUser } from "../../redux/auth/authOperation";
+
 const initialState = {
   email: "",
   password: "",
 };
+
 const LoginScreen = ({ navigation }) => {
   const [isShowKeyboard, setIsShowKeyboard] = useState(false);
   const [isEmailFocus, setIsEmailFocus] = useState(false);
   const [isPasswordFocus, setIsPasswordFocus] = useState(false);
   const [state, setState] = useState(initialState);
-
+  const dispatch = useDispatch();
   return (
     <View style={styles.container}>
       <TouchableWithoutFeedback
@@ -94,7 +98,9 @@ const LoginScreen = ({ navigation }) => {
                     setIsPasswordFocus(false);
                     Keyboard.dismiss();
                     // console.log("state from  Login screen:", state);
-                    navigation.navigate("Home", { customState: state });
+                    dispatch(authSignInUser(state));
+                    // navigation.navigate("Home", { customState: state });
+                    navigation.navigate("Home");
                     setState(initialState);
                   }}
                 >

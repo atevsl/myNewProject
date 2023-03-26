@@ -136,7 +136,9 @@ const RegistrationScreen = ({ navigation }) => {
                     Keyboard.dismiss();
                     // console.log("state from Registration screen", state);
                     dispatch(authSignUpUser(state));
-                    navigation.navigate("Home", { customState: state });
+                    // navigation.navigate("Home", { customState: state });
+                    navigation.navigate("Home");
+
                     setState(initialState);
                   }}
                 >
