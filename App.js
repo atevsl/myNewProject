@@ -3,7 +3,6 @@ import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
 
-import Home from "./src/Screens/Home";
 import { createStackNavigator } from "@react-navigation/stack";
 import RegistrationScreen from "./src/Auth/RegistrationScreen";
 import LoginScreen from "./src/Auth/LoginScreen";
@@ -11,11 +10,12 @@ import { Provider } from "react-redux";
 import { store } from "./redux/store";
 
 import { auth } from "./firebase/config";
+import Main from "./src/components/Main";
 
 SplashScreen.preventAutoHideAsync();
 
 export default function App() {
-  const [user, setUser] = useState(null);
+  const [isUserAuth, setIsUserAuth] = useState(null);
 
   const [fontsLoaded] = useFonts({
     "Roboto-Regular": require("./assets/fonts/Roboto-Regular.ttf"),
@@ -38,17 +38,17 @@ export default function App() {
   const AuthStack = createStackNavigator();
 
   auth.onAuthStateChanged((user) => {
-    console.log("user in app", user);
-    setUser(user);
+    setIsUserAuth(user);
   });
 
   // if (user===null)  {}
 
   return (
     <Provider store={store}>
-      <NavigationContainer>
+      <Main />
+      {/* <NavigationContainer>
         <AuthStack.Navigator>
-          {user === null && (
+          {isUserAuth === null && (
             <>
               <AuthStack.Screen
                 options={{ headerShown: false }}
@@ -68,7 +68,7 @@ export default function App() {
               />
             </>
           )}
-          {user && (
+          {isUserAuth && (
             <>
               <AuthStack.Screen
                 options={{ headerShown: false }}
@@ -89,7 +89,7 @@ export default function App() {
             </>
           )}
         </AuthStack.Navigator>
-      </NavigationContainer>
+      </NavigationContainer> */}
     </Provider>
   );
 }

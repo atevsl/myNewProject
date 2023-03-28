@@ -9,18 +9,20 @@ import {
 } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from "@expo/vector-icons";
+import { useDispatch } from "react-redux";
+import { authSignOutUser } from "../../../redux/auth/authOperation";
 
 const Default = ({ navigation, route }) => {
-  // const [posts, setPosts] = useState([]);
   const [posts, setPosts] = useState(null);
-
-  console.log("route.params in Default", route.params);
+  console.log("posts in default", posts);
+  console.log("route", route);
+  const dispatch = useDispatch();
   // useEffect(() => {
   //   if (route.params.post) {
   //     setPosts((prevState) => [...prevState, route.params.post]);
   //   }
-  // }, [route.params]);
-  // console.log("posts", posts);
+  // }, [route.params.post]);
+
   return (
     <View style={styles.container}>
       <View style={styles.containerTitle}>
@@ -29,19 +31,14 @@ const Default = ({ navigation, route }) => {
           source={require("../../../assets/noUser.jpg")}
         />
         <View style={styles.userDeckription}>
-          {/* {route.params.login && (
-            <Text style={styles.userName}>{route.params.login}</Text>
-          )}
-          {route.params.email && (
-            <Text style={styles.userEmail}>{route.params.email}</Text>
-          )} */}
           <Text style={styles.userEmail}>login</Text>
         </View>
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.btnLogOut}
           onPress={() => {
-            navigation.navigate("LoginScreen");
+            console.log("=====press logout!=====");
+            dispatch(authSignOutUser());
           }}
         >
           <AntDesign name="logout" size={24} color="black" />

@@ -1,18 +1,37 @@
 import React from "react";
+
+import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
-import PostsScreen from "./Posts/PostsScreen";
-import ProfileScreen from "./ProfileScreen";
-import CreatePostsScreen from "./CreatePostsScreen";
+const AuthStack = createStackNavigator();
+const HomeTabs = createBottomTabNavigator();
 
 // icons import
 import AntDesign from "@expo/vector-icons/AntDesign";
+import LoginScreen from "./Auth/LoginScreen";
+import RegistrationScreen from "./Auth/RegistrationScreen";
+import PostsScreen from "./Screens/Posts/PostsScreen";
+import CreatePostsScreen from "./Screens/CreatePostsScreen";
+import ProfileScreen from "./Screens/ProfileScreen";
 
-const HomeTabs = createBottomTabNavigator();
-const Home = ({ navigation, route }) => {
-  // console.log("route in Home", route);
-  // console.log("custom state in Home", route.params.customState);
+export const useRouter = (isAuth) => {
+  if (!isAuth) {
+    return (
+      <AuthStack.Navigator>
+        <AuthStack.Screen
+          options={{ headerShown: false }}
+          name="LoginScreen"
+          component={LoginScreen}
+        />
 
+        <AuthStack.Screen
+          options={{ headerShown: false }}
+          name="RegistrationScreen"
+          component={RegistrationScreen}
+        />
+      </AuthStack.Navigator>
+    );
+  }
   return (
     <HomeTabs.Navigator
       screenOptions={({ navigation, route }) => ({
@@ -48,5 +67,3 @@ const Home = ({ navigation, route }) => {
     </HomeTabs.Navigator>
   );
 };
-
-export default Home;

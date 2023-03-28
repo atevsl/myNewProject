@@ -16,7 +16,7 @@ import { useDispatch } from "react-redux";
 import { authSignUpUser } from "../../redux/auth/authOperation";
 
 const initialState = {
-  login: "",
+  displayName: "",
   email: "",
   password: "",
 };
@@ -69,7 +69,7 @@ const RegistrationScreen = ({ navigation }) => {
                 <TextInput
                   placeholder="Логин"
                   textAlign="center"
-                  value={state.login}
+                  value={state.displayName}
                   style={{
                     ...styles.input,
                     borderColor: isloginFocus ? "#FF6C00" : "#E8E8E8",
@@ -82,7 +82,10 @@ const RegistrationScreen = ({ navigation }) => {
                     setIsEmailFocus(false);
                   }}
                   onChangeText={(value) =>
-                    setState((prevState) => ({ ...prevState, login: value }))
+                    setState((prevState) => ({
+                      ...prevState,
+                      displayName: value,
+                    }))
                   }
                 />
                 <TextInput
@@ -137,7 +140,7 @@ const RegistrationScreen = ({ navigation }) => {
                     // console.log("state from Registration screen", state);
                     dispatch(authSignUpUser(state));
                     // navigation.navigate("Home", { customState: state });
-                    navigation.navigate("Home");
+                    // navigation.navigate("Home");
 
                     setState(initialState);
                   }}

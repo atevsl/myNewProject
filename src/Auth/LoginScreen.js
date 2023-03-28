@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }) => {
                     // console.log("state from  Login screen:", state);
                     dispatch(authSignInUser(state));
                     // navigation.navigate("Home", { customState: state });
-                    navigation.navigate("Home");
+                    // navigation.navigate("Home");
                     setState(initialState);
                   }}
                 >

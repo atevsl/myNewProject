@@ -60,12 +60,12 @@ const ProfileScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.userDeckription}>
-            {route.params.login && (
-              <Text style={styles.name}>{route.params.login}</Text>
-            )}
-            {route.params.email && (
-              <Text style={styles.userEmail}>{route.params.email}</Text>
-            )}
+            {/* {route.params.login && ( */}
+            <Text style={styles.name}>login</Text>
+            {/* )} */}
+            {/* {route.params.email && ( */}
+            <Text style={styles.userEmail}>email</Text>
+            {/* )} */}
           </View>
 
           <SafeAreaView style={styles.container}>
