@@ -10,6 +10,10 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
+import app, { auth, db, storage } from "../../firebase/config";
+import { collection, addDoc } from "firebase/firestore";
+
+import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
@@ -20,17 +24,23 @@ const CreatePostsScreen = ({ navigation }) => {
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
-      const locationStatus = await Location.requestForegroundPermissionsAsync();
-      console.log("Location", Location);
-      console.log("locationStatus", locationStatus);
-      const location = await Location.getCurrentPositionAsync();
-      console.log("location", location);
-      console.log("location.coords", location.coords);
-      console.log("latitude", location.coords.latitude);
-      console.log("longitude", location.coords.longitude);
+      console.log("Camera status:", status);
+
+      let locationStatus = await Location.requestForegroundPermissionsAsync();
+      // console.log("Location", Location);
+      // console.log("locationStatus", locationStatus);
+
       if (status === "granted" && locationStatus.status === "granted") {
         console.log("Permission granted");
-      } else console.log("Permission to access location was denied");
+      } else {
+        console.log("Permission to access location was denied");
+        return;
+      }
+      let location = await Location.getCurrentPositionAsync({});
+      console.log("location", location);
+      // console.log("location.coords", location.coords);
+      // console.log("latitude", location.coords.latitude);
+      // console.log("longitude", location.coords.longitude);
     })();
   }, []);
 
@@ -43,10 +53,29 @@ const CreatePostsScreen = ({ navigation }) => {
     console.log("longitude", location.coords.longitude);
   };
 
-  const sendPhoto = () => {
-    console.log("navigation in sendphoto", navigation);
-    console.log("photo in sendphoto", photo);
+  const uploadPhotoToServer = async () => {
+    if (!photo) return;
+    try {
+      const response = await fetch(photo);
+      const blobFile = await response.blob();
+      let id = Date.now();
+      if (title !== "") {
+        id = title;
+      }
+      const reference = ref(storage, `images/${id}`);
+      const result = await uploadBytesResumable(reference, blobFile);
+      const processedPhoto = await getDownloadURL(result.ref);
+      console.log("processedPhoto: ", processedPhoto);
+    } catch (err) {
+      console.log("Try again.", err.message);
+    }
+  };
 
+  const sendPhoto = async () => {
+    console.log("start upload photoToSErver");
+    await uploadPhotoToServer();
+
+    console.log("redirect");
     navigation.navigate("Default", { post: { photo, title } });
   };
 

@@ -11,11 +11,14 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from "@expo/vector-icons";
 import { useDispatch } from "react-redux";
 import { authSignOutUser } from "../../../redux/auth/authOperation";
+import { db, storage } from "../../../firebase/config";
+
+import { getDownloadURL, getStorage, ref } from "firebase/storage";
 
 const Default = ({ navigation, route }) => {
   const [posts, setPosts] = useState(null);
-  console.log("posts in default", posts);
-  console.log("route", route);
+  // console.log("posts in default", posts);
+  // console.log("route", route);
   const dispatch = useDispatch();
   // useEffect(() => {
   //   if (route.params.post) {
