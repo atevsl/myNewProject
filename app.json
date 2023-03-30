@@ -2,24 +2,23 @@
   "expo": {
     "name": "myNewProject",
     "slug": "myNewProject",
+    "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "default",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "updates": {
+      "fallbackToCacheTimeout": 0
+    },
     "assetBundlePatterns": ["**/*"],
-    "platforms": ["ios", "android"],
-    "permissions": ["location", "locationAlwaysAndWhenInUse"],
     "ios": {
-      "infoPlist": {
-        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app requires location access at all times and when in use to provide you with accurate location-based services.",
-        "NSLocationAlwaysUsageDescription": "This app requires location access at all times to provide you with accurate location-based services.",
-        "NSLocationWhenInUseUsageDescription": "This app requires location access when in use to provide you with accurate location-based services."
-      }
-    }
+      "supportsTablet": true
+    },
+    "userInterfaceStyle": "light",
+    "permissions": ["location", "locationAlwaysAndWhenInUse"]
   }
 }

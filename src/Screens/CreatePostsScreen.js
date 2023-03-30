@@ -10,8 +10,7 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import app, { auth, db, storage } from "../../firebase/config";
-import { collection, addDoc } from "firebase/firestore";
+import { storage } from "../../firebase/config";
 
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
@@ -23,12 +22,10 @@ const CreatePostsScreen = ({ navigation }) => {
 
   useEffect(() => {
     (async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
+      let { status } = await Camera.requestCameraPermissionsAsync();
       console.log("Camera status:", status);
 
       let locationStatus = await Location.requestForegroundPermissionsAsync();
-      // console.log("Location", Location);
-      // console.log("locationStatus", locationStatus);
 
       if (status === "granted" && locationStatus.status === "granted") {
         console.log("Permission granted");
@@ -37,20 +34,14 @@ const CreatePostsScreen = ({ navigation }) => {
         return;
       }
       let location = await Location.getCurrentPositionAsync({});
-      console.log("location", location);
-      // console.log("location.coords", location.coords);
-      // console.log("latitude", location.coords.latitude);
-      // console.log("longitude", location.coords.longitude);
+      setLocation(location);
     })();
   }, []);
 
   const takePhoto = async () => {
     const photo = await camera.takePictureAsync();
-    console.log("photo.uri in takephoto func: ", photo.uri);
-    setPhoto(photo.uri);
     const location = await Location.getCurrentPositionAsync();
-    console.log("latitude", location.coords.latitude);
-    console.log("longitude", location.coords.longitude);
+    setPhoto(photo.uri);
   };
 
   const uploadPhotoToServer = async () => {
@@ -59,9 +50,9 @@ const CreatePostsScreen = ({ navigation }) => {
       const response = await fetch(photo);
       const blobFile = await response.blob();
       let id = Date.now();
-      if (title !== "") {
-        id = title;
-      }
+      // if (title !== "") {
+      //   id = title;
+      // }
       const reference = ref(storage, `images/${id}`);
       const result = await uploadBytesResumable(reference, blobFile);
       const processedPhoto = await getDownloadURL(result.ref);
@@ -71,10 +62,9 @@ const CreatePostsScreen = ({ navigation }) => {
     }
   };
 
-  const sendPhoto = async () => {
+  const sendPhoto = () => {
     console.log("start upload photoToSErver");
-    await uploadPhotoToServer();
-
+    uploadPhotoToServer();
     console.log("redirect");
     navigation.navigate("Default", { post: { photo, title } });
   };
