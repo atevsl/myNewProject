@@ -1,14 +1,8 @@
 import { useEffect, useState } from "react";
-import { NavigationContainer, useScrollToTop } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-
-import { createStackNavigator } from "@react-navigation/stack";
-import RegistrationScreen from "./src/Auth/RegistrationScreen";
-import LoginScreen from "./src/Auth/LoginScreen";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
-
 import { auth } from "./firebase/config";
 import Main from "./src/components/Main";
 
@@ -35,61 +29,14 @@ export default function App() {
   } else {
     SplashScreen.hideAsync();
   }
-  const AuthStack = createStackNavigator();
 
   auth.onAuthStateChanged((user) => {
     setIsUserAuth(user);
   });
 
-  // if (user===null)  {}
-
   return (
     <Provider store={store}>
       <Main />
-      {/* <NavigationContainer>
-        <AuthStack.Navigator>
-          {isUserAuth === null && (
-            <>
-              <AuthStack.Screen
-                options={{ headerShown: false }}
-                name="LoginScreen"
-                component={LoginScreen}
-              />
-
-              <AuthStack.Screen
-                options={{ headerShown: false }}
-                name="RegistrationScreen"
-                component={RegistrationScreen}
-              />
-              <AuthStack.Screen
-                options={{ headerShown: false }}
-                name="Home"
-                component={Home}
-              />
-            </>
-          )}
-          {isUserAuth && (
-            <>
-              <AuthStack.Screen
-                options={{ headerShown: false }}
-                name="Home"
-                component={Home}
-              />
-              <AuthStack.Screen
-                options={{ headerShown: false }}
-                name="LoginScreen"
-                component={LoginScreen}
-              />
-
-              <AuthStack.Screen
-                options={{ headerShown: false }}
-                name="RegistrationScreen"
-                component={RegistrationScreen}
-              />
-            </>
-          )}
-        </AuthStack.Navigator>
-      </NavigationContainer> */}
     </Provider>
   );
 }
