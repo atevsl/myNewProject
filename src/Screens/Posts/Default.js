@@ -10,19 +10,32 @@ import {
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { FontAwesome } from "@expo/vector-icons";
 import { authSignOutUser } from "../../../redux/auth/authOperation";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../../firebase/config";
+import { useDispatch, useSelector } from "react-redux";
 
-const Default = ({ navigation, route }) => {
+const Default = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
+  const { userId } = useSelector((state) => state.auth);
+
+  const dispatch = useDispatch();
+
+  const getAllPost = async () => {
+    console.log("getAllPost start");
+    console.log(" posts", posts);
+    const colRef = collection(db, "posts");
+    // const docsSnap = await getDocs(colRef);
+    const q = query(colRef, where("userId", "==", `${userId}`));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      console.log(doc.data());
+      setPosts((prevState) => [...prevState, doc.data()]);
+    });
+  };
 
   useEffect(() => {
-    //   if (route.params.post) {
-    //     setPosts((prevState) => [...prevState, route.params.post]);
-    //   }
-    // }, [route.params.post]);
-    if (route.params) {
-      setPosts((prevState) => [...prevState, route.params]);
-    }
-  }, [route.params]);
+    getAllPost();
+  }, []);
 
   return (
     <View style={styles.container}>

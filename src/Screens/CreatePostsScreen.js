@@ -58,9 +58,6 @@ const CreatePostsScreen = ({ navigation }) => {
       const response = await fetch(photo);
       const blobFile = await response.blob();
       let id = Date.now();
-      // if (title !== "") {
-      //   id = title;
-      // }
       const reference = ref(storage, `images/${id}`);
       const result = await uploadBytesResumable(reference, blobFile);
       const processedPhoto = await getDownloadURL(result.ref);
@@ -83,6 +80,8 @@ const CreatePostsScreen = ({ navigation }) => {
     };
     try {
       const createPost = await setDoc(doc(db, "posts", `${title}`), newPost);
+      // , {merge: true,}
+      console.log("createPost", createPost);
     } catch (error) {
       console.log("createPosterror:", error);
     }
@@ -92,7 +91,7 @@ const CreatePostsScreen = ({ navigation }) => {
     console.log("start upload photoToSErver");
     uploadPostToServer();
     console.log("redirect");
-    navigation.navigate("Default", { photo, title });
+    navigation.navigate("Default");
   };
 
   return (
