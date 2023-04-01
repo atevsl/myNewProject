@@ -21,8 +21,8 @@ const CreatePostsScreen = ({ navigation }) => {
   const [photo, setPhoto] = useState(null);
   const [title, setTitle] = useState("");
   const [location, setLocation] = useState({
-    latitude: 30.09785,
-    longitude: 30.92661,
+    latitude: 0,
+    longitude: 0,
   });
 
   const { userId, displayName } = useSelector((state) => state.auth);

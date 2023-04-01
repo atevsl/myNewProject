@@ -16,42 +16,52 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Default = ({ navigation }) => {
   const [posts, setPosts] = useState([]);
-  const { userId } = useSelector((state) => state.auth);
+  const { userId, displayName, email } = useSelector((state) => state.auth);
 
   const dispatch = useDispatch();
 
-  const getAllPost = async () => {
-    console.log("getAllPost start");
-    console.log(" posts", posts);
-    const colRef = collection(db, "posts");
-    // const docsSnap = await getDocs(colRef);
-    const q = query(colRef, where("userId", "==", `${userId}`));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.forEach((doc) => {
-      console.log(doc.data());
-      setPosts((prevState) => [...prevState, doc.data()]);
-    });
-  };
+  // const getAllPost = async () => {
+  //   const colRef = collection(db, "posts");
+  //   const q = query(colRef, where("userId", "==", `${userId}`));
+  //   const querySnapshot = await getDocs(q);
+  //   querySnapshot.forEach((doc) => {
+  //     setPosts((prevState) => [...prevState, doc.data()]);
+  //   });
+  // };
+
+  // useEffect(() => {
+  //   getAllPost();
+  // }, []);
 
   useEffect(() => {
-    getAllPost();
+    (async () => {
+      const colRef = collection(db, "posts");
+      const q = query(colRef, where("userId", "==", `${userId}`));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        setPosts((prevState) => [...prevState, doc.data()]);
+      });
+    })();
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.containerTitle}>
-        <Image
-          style={styles.userPhoto}
-          source={require("../../../assets/noUser.jpg")}
-        />
-        <View style={styles.userDeckription}>
-          <Text style={styles.userEmail}>login</Text>
+        <View style={{ flexDirection: "row" }}>
+          <Image
+            style={styles.userPhoto}
+            source={require("../../../assets/noUser.jpg")}
+          />
+          <View style={styles.userDeckription}>
+            <Text style={styles.userEmail}>{displayName}</Text>
+            <Text style={styles.userEmail}>{email}</Text>
+          </View>
         </View>
+
         <TouchableOpacity
           activeOpacity={0.8}
           style={styles.btnLogOut}
           onPress={() => {
-            console.log("=====press logout!=====");
             dispatch(authSignOutUser());
           }}
         >
@@ -90,7 +100,10 @@ const Default = ({ navigation }) => {
                   style={styles.photoDescription}
                   activeOpacity={0.8}
                   onPress={() => {
-                    navigation.navigate("MapScreen");
+                    navigation.navigate("MapScreen", {
+                      location: item.location,
+                      phototitle: item.title,
+                    });
                   }}
                 >
                   <FontAwesome name="map-marker" size={24} color="black" />
@@ -112,12 +125,13 @@ const styles = StyleSheet.create({
   },
   containerTitle: {
     backgroundColor: "#F6F6F6",
+    display: "flex",
     flexDirection: "row",
-    paddingTop: 20,
-    paddingLeft: 20,
+    padding: 20,
+
+    justifyContent: "space-between",
   },
   btnLogOut: {
-    paddingLeft: 240,
     paddingTop: 15,
   },
   userPhoto: {
