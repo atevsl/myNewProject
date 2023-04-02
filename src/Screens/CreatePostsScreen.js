@@ -24,6 +24,7 @@ const CreatePostsScreen = ({ navigation }) => {
     latitude: 0,
     longitude: 0,
   });
+  const [postId, setPostId] = useState(null);
 
   const { userId, displayName } = useSelector((state) => state.auth);
 
@@ -46,6 +47,7 @@ const CreatePostsScreen = ({ navigation }) => {
   }, []);
 
   const takePhoto = async () => {
+    setPostId(Date.now().toString());
     const photo = await camera.takePictureAsync();
     setPhoto(photo.uri);
     let locationRes = await Location.getCurrentPositionAsync({});
@@ -71,15 +73,18 @@ const CreatePostsScreen = ({ navigation }) => {
   const uploadPostToServer = async () => {
     const photo = await uploadPhotoToServer();
     console.log("upload photo to server✅");
+
     const newPost = {
       photo,
       title,
       location,
       userId,
       displayName,
+      postId,
     };
+
     try {
-      const createPost = await setDoc(doc(db, "posts", `${title}`), newPost);
+      const createPost = await setDoc(doc(db, "posts", `${postId}`), newPost);
       // , {merge: true,}
       console.log("createPost", createPost);
     } catch (error) {

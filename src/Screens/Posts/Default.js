@@ -20,29 +20,31 @@ const Default = ({ navigation }) => {
 
   const dispatch = useDispatch();
 
-  // const getAllPost = async () => {
-  //   const colRef = collection(db, "posts");
-  //   const q = query(colRef, where("userId", "==", `${userId}`));
-  //   const querySnapshot = await getDocs(q);
-  //   querySnapshot.forEach((doc) => {
-  //     setPosts((prevState) => [...prevState, doc.data()]);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getAllPost();
-  // }, []);
+  const getAllPost = async () => {
+    const colRef = collection(db, "posts");
+    const q = query(colRef, where("userId", "==", `${userId}`));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setPosts((prevState) => [...prevState, doc.data()]);
+      console.log("posts", posts);
+    });
+  };
 
   useEffect(() => {
-    (async () => {
-      const colRef = collection(db, "posts");
-      const q = query(colRef, where("userId", "==", `${userId}`));
-      const querySnapshot = await getDocs(q);
-      querySnapshot.forEach((doc) => {
-        setPosts((prevState) => [...prevState, doc.data()]);
-      });
-    })();
+    getAllPost();
   }, []);
+
+  // useEffect(() => {
+  //   (async () => {
+  //     const colRef = collection(db, "posts");
+  //     const q = query(colRef, where("userId", "==", `${userId}`));
+  //     const querySnapshot = await getDocs(q);
+  //     querySnapshot.forEach((doc) => {
+  //       setPosts((prevState) => [...prevState, doc.data()]);
+  //       console.log("posts", posts);
+  //     });
+  //   })();
+  // }, []);
 
   return (
     <View style={styles.container}>
@@ -77,7 +79,7 @@ const Default = ({ navigation }) => {
               <Image
                 source={{ uri: item.photo }}
                 style={{
-                  height: 100,
+                  height: 240,
                   backgroundColor: "white",
                   marginHorizontal: 10,
                 }}
@@ -90,11 +92,16 @@ const Default = ({ navigation }) => {
                   style={styles.photoDescription}
                   activeOpacity={0.8}
                   onPress={() => {
-                    navigation.navigate("CommentsScreen");
+                    navigation.navigate("CommentsScreen", {
+                      postId: item.postId,
+                      href: item.photo,
+                    });
                   }}
                 >
                   <FontAwesome name="comments-o" size={24} color="black" />
-                  <Text>123</Text>
+                  <Text style={{ fontSize: 16, color: "black", padding: 5 }}>
+                    {item.comments ? item.comments.length : ""}
+                  </Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={styles.photoDescription}
@@ -152,7 +159,7 @@ const styles = StyleSheet.create({
   photoContainer: {
     marginHorizontal: 10,
     marginBottom: 30,
-    height: 150,
+    height: 300,
   },
   photoDescription: {
     display: "flex",
