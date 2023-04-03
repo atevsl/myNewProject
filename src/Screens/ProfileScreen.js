@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Text,
   StyleSheet,
@@ -6,41 +6,31 @@ import {
   ImageBackground,
   TouchableOpacity,
   Image,
-  SafeAreaView,
-  ScrollView,
-  FlatList,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-
-const POSTS = [
-  {
-    id: "45k6-j54k-4jth",
-    href: "../../assets/defPost.jpg",
-    title: "one",
-    comments: 12,
-    likes: 45,
-    location: "Ukraine",
-  },
-  {
-    id: "45k6-jrgre54k-r4jth",
-    href: "../../assets/defPost.jpg",
-    title: "two",
-    comments: 53,
-    likes: 5,
-    location: "us",
-  },
-  {
-    id: "45k6-j5geafhhhr4k-4jth",
-    href: "../../assets/defPost.jpg",
-    title: "three",
-    comments: 5,
-    likes: 23,
-    location: "africa",
-  },
-];
+import { useDispatch, useSelector } from "react-redux";
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { db } from "../../firebase/config";
+import { FlatList } from "react-native";
 
 const ProfileScreen = ({ navigation, route }) => {
-  const [posts, setPosts] = useState(POSTS);
+  const [posts, setPosts] = useState([]);
+  const { userId, displayName, email } = useSelector((state) => state.auth);
+  const dispatch = useDispatch();
+
+  const getAllPost = async () => {
+    const colRef = collection(db, "posts");
+    const q = query(colRef, where("userId", "==", `${userId}`));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      setPosts((prevState) => [...prevState, doc.data()]);
+    });
+  };
+
+  useEffect(() => {
+    getAllPost();
+  }, [navigation, route]);
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -60,54 +50,44 @@ const ProfileScreen = ({ navigation, route }) => {
             </TouchableOpacity>
           </View>
           <View style={styles.userDeckription}>
-            {/* {route.params.login && ( */}
-            <Text style={styles.name}>login</Text>
-            {/* )} */}
-            {/* {route.params.email && ( */}
-            <Text style={styles.userEmail}>email</Text>
-            {/* )} */}
+            <Text style={styles.name}>{displayName}</Text>
           </View>
+          {posts && (
+            <FlatList
+              data={posts}
+              keyExtractor={(item, indx) => indx}
+              renderItem={({ item }) => (
+                <View>
+                  <Image
+                    source={{ uri: item.photo }}
+                    resizeMode="cover"
+                    style={styles.postPhoto}
+                  />
+                  <View style={styles.postTitle}>
+                    <Text>{item.title}</Text>
+                    <View style={styles.postDescription}>
+                      <View style={styles.postDescWrap}>
+                        <AntDesign name="message1" size={24} color="black" />
+                        <Text style={{ marginLeft: 10 }}>
+                          {item.comments ? item.comments.length : ""}
+                        </Text>
+                      </View>
 
-          <SafeAreaView style={styles.container}>
-            <ScrollView>
-              {posts.map((post) => {
-                return (
-                  <View key={post.id}>
-                    <Image
-                      source={require("../../assets/defPost.jpg")}
-                      resizeMode="cover"
-                      style={styles.postPhoto}
-                    />
-                    <View style={styles.postTitle}>
-                      <Text>{post.title}</Text>
-                      <View style={styles.postDescription}>
-                        <View style={styles.postDescWrap}>
-                          <AntDesign name="message1" size={24} color="black" />
-                          <Text style={{ marginLeft: 10 }}>
-                            {post.comments}
-                          </Text>
-                        </View>
-                        <View style={styles.postDescWrap}>
-                          <AntDesign name="like2" size={24} color="black" />
-                          <Text style={{ marginLeft: 10 }}>{post.likes}</Text>
-                        </View>
-                        <View style={styles.postDescWrap}>
-                          <AntDesign
-                            name="enviromento"
-                            size={24}
-                            color="black"
-                          />
-                          <Text style={{ marginLeft: 10 }}>
-                            {post.location}
-                          </Text>
-                        </View>
+                      <View style={styles.postDescWrap}>
+                        <AntDesign name="like2" size={24} color="black" />
+                        <Text style={{ marginLeft: 10 }}></Text>
+                      </View>
+
+                      <View style={styles.postDescWrap}>
+                        <AntDesign name="enviromento" size={24} color="black" />
+                        <Text style={{ marginLeft: 10 }}></Text>
                       </View>
                     </View>
                   </View>
-                );
-              })}
-            </ScrollView>
-          </SafeAreaView>
+                </View>
+              )}
+            />
+          )}
         </View>
       </ImageBackground>
     </View>

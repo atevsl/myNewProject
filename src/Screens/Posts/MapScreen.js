@@ -5,7 +5,7 @@ import MapView, { Marker } from "react-native-maps";
 const MapScreen = ({ route }) => {
   const { longitude, latitude } = route.params.location;
   const phototitle = route.params.phototitle;
-  console.log("phototitle", phototitle);
+
   return (
     <View style={styles.container}>
       <MapView

@@ -10,19 +10,21 @@ import {
 import { Camera } from "expo-camera";
 import { AntDesign } from "@expo/vector-icons";
 import * as Location from "expo-location";
-import app, { db, storage } from "../../firebase/config";
+import { db, storage } from "../../firebase/config";
 
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useSelector } from "react-redux";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 
 const CreatePostsScreen = ({ navigation }) => {
   const [camera, setCamera] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [title, setTitle] = useState("");
+  const [place, setPlace] = useState("");
+
   const [location, setLocation] = useState({
-    latitude: 0,
-    longitude: 0,
+    latitude: 40.73061,
+    longitude: -73.935242,
   });
   const [postId, setPostId] = useState(null);
 
@@ -41,8 +43,6 @@ const CreatePostsScreen = ({ navigation }) => {
         console.log("Permission to access was denied");
         // return;
       }
-      // let locationRes = await Location.getCurrentPositionAsync({});
-      // setLocation(locationRes);
     })();
   }, []);
 
@@ -63,7 +63,6 @@ const CreatePostsScreen = ({ navigation }) => {
       const reference = ref(storage, `images/${id}`);
       const result = await uploadBytesResumable(reference, blobFile);
       const processedPhoto = await getDownloadURL(result.ref);
-      console.log("processedPhoto: ", processedPhoto);
       return processedPhoto;
     } catch (err) {
       console.log("Try again.", err.message);
@@ -81,11 +80,11 @@ const CreatePostsScreen = ({ navigation }) => {
       userId,
       displayName,
       postId,
+      place,
     };
 
     try {
       const createPost = await setDoc(doc(db, "posts", `${postId}`), newPost);
-      // , {merge: true,}
       console.log("createPost", createPost);
     } catch (error) {
       console.log("createPosterror:", error);
@@ -93,10 +92,12 @@ const CreatePostsScreen = ({ navigation }) => {
   };
 
   const sendPhoto = () => {
-    console.log("start upload photoToSErver");
     uploadPostToServer();
-    console.log("redirect");
-    navigation.navigate("Default");
+
+    setTitle("");
+    setPlace("");
+
+    navigation.navigate("Default", { refresh: true });
   };
 
   return (
@@ -121,7 +122,14 @@ const CreatePostsScreen = ({ navigation }) => {
           setTitle(value);
         }}
       />
-      <TextInput style={styles.inputLoad} placeholder="Местность..." />
+      <TextInput
+        style={styles.inputLoad}
+        placeholder="Местность..."
+        value={place}
+        onChangeText={(value) => {
+          setPlace(value);
+        }}
+      />
       <TouchableOpacity
         activeOpacity={0.8}
         style={styles.btnPost}

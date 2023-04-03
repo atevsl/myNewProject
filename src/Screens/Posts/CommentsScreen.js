@@ -17,79 +17,44 @@ import {
   FlatList,
   SafeAreaView,
   Image,
+  Keyboard,
 } from "react-native";
 import { db } from "../../../firebase/config";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
+import { FontAwesome } from "@expo/vector-icons";
 
 const CommentsScreen = ({ route }) => {
   const [comment, setComment] = useState("");
   const [allComments, setAllComments] = useState([]);
-  const { displayName } = useSelector((state) => state.auth);
+  const [refresh, setRefresh] = useState(true);
   const postId = route.params.postId;
   const href = route.params.href;
 
-  console.log("postId:", postId);
-  console.log("displayName:", displayName);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const colRef = collection(db, "posts");
-  //     const q = query(colRef, where("userId", "==", `${userId}`));
-  //     const querySnapshot = await getDocs(q);
-  //     querySnapshot.forEach((doc) => {
-  //       setPosts((prevState) => [...prevState, doc.data()]);
-  //       console.log("posts", posts);
-  //     });
-  //   })();
-  // }, []);
-
   const getAllComments = async () => {
     const colRef = collection(db, "posts");
-    console.log("colRef", colRef);
-
     const q = query(colRef, where("postId", "==", `${postId}`));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       {
         doc.data().comments && setAllComments(doc.data().comments);
       }
-      console.log("allComments", allComments);
-      console.log("doc:", doc.data().comments);
     });
   };
 
   useEffect(() => {
     getAllComments();
   }, []);
+  useEffect(() => {
+    getAllComments();
+  }, [refresh]);
 
-  // const createPost = async () => {
-  //   db.firestore()
-  //     .collection("posts")
-  //     .doc(postId)
-  //     .collection("comments")
-  //     .add({ comment, nickName });
-  // };
-
-  // // Get a reference to the "users" collection
-  // const usersRef = firestore.collection("users");
-
-  // // Add a new subcollection called "posts" for a specific user
-  // const userDocRef = usersRef.doc("user123");
-  // const postsCollectionRef = userDocRef.collection("posts");
   const createPost = async () => {
-    console.log("load comment to postId:", postId);
     const postRef = doc(db, "posts", `${postId}`);
-    console.log("postRef", postRef);
-    console.log("comment", comment);
-
-    setAllComments(
-      (prevState) => {
-        console.log("prevState", prevState);
-      }
-      // [...prevState, comment]
-    );
     await updateDoc(postRef, { comments: [...allComments, comment] });
+    Keyboard.dismiss();
+    setComment("");
+    setRefresh((prevstate) => !prevstate);
   };
 
   return (
@@ -101,29 +66,31 @@ const CommentsScreen = ({ route }) => {
             data={allComments}
             renderItem={({ item }) => (
               <View style={styles.comment}>
+                <FontAwesome name="commenting-o" size={24} color="black" />
                 <Text>{item}</Text>
-                {/* <Text>{item.comments}</Text> */}
               </View>
             )}
             keyExtractor={(item, indx) => indx}
           />
         )}
       </SafeAreaView>
-      <TextInput
-        style={styles.inputLoad}
-        placeholder="..."
-        value={comment}
-        onChangeText={(value) => {
-          setComment(value);
-        }}
-      />
-      <TouchableOpacity
-        activeOpacity={0.8}
-        style={styles.btnPost}
-        onPress={createPost}
-      >
-        <Text style={styles.post}>Добавить комментарий</Text>
-      </TouchableOpacity>
+      <View style={styles.commentWrap}>
+        <TextInput
+          style={styles.inputLoad}
+          placeholder="коментировать..."
+          value={comment}
+          onChangeText={(value) => {
+            setComment(value);
+          }}
+        />
+        <TouchableOpacity
+          activeOpacity={0.8}
+          style={styles.btnPost}
+          onPress={createPost}
+        >
+          <FontAwesome name="cloud-upload" size={24} color="orange" />
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -137,24 +104,34 @@ const styles = StyleSheet.create({
   inputLoad: {
     borderBottomWidth: 1,
     height: 40,
-    width: 343,
-    marginBottom: 32,
+    width: 300,
   },
   btnPost: {
-    width: 343,
+    width: 50,
     height: 50,
     backgroundColor: "#F6F6F6",
     alignItems: "center",
+    justifyContent: "center",
     borderRadius: 100,
-    marginTop: 5,
-    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: "black",
   },
+  commentWrap: {
+    flexDirection: "row",
+    borderWidth: 1,
+    borderColor: "black",
+    margin: 10,
+    padding: 10,
+    borderRadius: 10,
+  },
+
   comment: {
     borderWidth: 1,
     borderColor: "black",
     padding: 10,
     margin: 10,
     borderRadius: 10,
+    width: 350,
   },
   photo: {
     height: 300,

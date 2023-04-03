@@ -14,37 +14,27 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "../../../firebase/config";
 import { useDispatch, useSelector } from "react-redux";
 
-const Default = ({ navigation }) => {
+const Default = ({ navigation, route }) => {
+  console.log("navigation", navigation);
+  console.log("route", route);
+
   const [posts, setPosts] = useState([]);
   const { userId, displayName, email } = useSelector((state) => state.auth);
-
   const dispatch = useDispatch();
 
   const getAllPost = async () => {
+    setPosts([]);
     const colRef = collection(db, "posts");
     const q = query(colRef, where("userId", "==", `${userId}`));
     const querySnapshot = await getDocs(q);
     querySnapshot.forEach((doc) => {
       setPosts((prevState) => [...prevState, doc.data()]);
-      console.log("posts", posts);
     });
   };
 
   useEffect(() => {
     getAllPost();
   }, []);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     const colRef = collection(db, "posts");
-  //     const q = query(colRef, where("userId", "==", `${userId}`));
-  //     const querySnapshot = await getDocs(q);
-  //     querySnapshot.forEach((doc) => {
-  //       setPosts((prevState) => [...prevState, doc.data()]);
-  //       console.log("posts", posts);
-  //     });
-  //   })();
-  // }, []);
 
   return (
     <View style={styles.container}>
@@ -73,7 +63,7 @@ const Default = ({ navigation }) => {
       {posts && (
         <FlatList
           data={posts}
-          keyExtractor={(item, indx) => indx.toString()}
+          keyExtractor={(item, indx) => indx}
           renderItem={({ item }) => (
             <View style={styles.photoContainer}>
               <Image
@@ -99,7 +89,14 @@ const Default = ({ navigation }) => {
                   }}
                 >
                   <FontAwesome name="comments-o" size={24} color="black" />
-                  <Text style={{ fontSize: 16, color: "black", padding: 5 }}>
+                  <Text
+                    style={{
+                      fontSize: 16,
+                      color: "black",
+                      padding: 5,
+                      marginLeft: 5,
+                    }}
+                  >
                     {item.comments ? item.comments.length : ""}
                   </Text>
                 </TouchableOpacity>
@@ -114,7 +111,9 @@ const Default = ({ navigation }) => {
                   }}
                 >
                   <FontAwesome name="map-marker" size={24} color="black" />
-                  <Text style={{ color: "black" }}>map</Text>
+                  <Text style={{ color: "black", marginLeft: 5 }}>
+                    {item.place ? item.place : "map"}
+                  </Text>
                 </TouchableOpacity>
               </View>
             </View>

@@ -56,7 +56,7 @@ export const useRouter = (isAuth) => {
       <HomeTabs.Screen
         name="PostsScreen"
         component={PostsScreen}
-        // initialParams={route.params.customState}
+        options={{ headerShown: false }}
       />
       <HomeTabs.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
       <HomeTabs.Screen

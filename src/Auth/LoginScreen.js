@@ -97,10 +97,7 @@ const LoginScreen = ({ navigation }) => {
                     setIsEmailFocus(false);
                     setIsPasswordFocus(false);
                     Keyboard.dismiss();
-                    // console.log("state from  Login screen:", state);
                     dispatch(authSignInUser(state));
-                    // navigation.navigate("Home", { customState: state });
-                    // navigation.navigate("Home");
                     setState(initialState);
                   }}
                 >
