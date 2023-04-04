@@ -20,7 +20,6 @@ import {
   Keyboard,
 } from "react-native";
 import { db } from "../../../firebase/config";
-import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { FontAwesome } from "@expo/vector-icons";
 

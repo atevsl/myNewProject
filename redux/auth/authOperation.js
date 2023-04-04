@@ -13,7 +13,6 @@ export const authSignUpUser =
       await createUserWithEmailAndPassword(auth, email, password);
       await updateProfile(auth.currentUser, { displayName: displayName });
       const userRegistered = auth.currentUser;
-      console.log("user in authSignInUser:", userRegistered);
 
       dispatch(
         authSlice.actions.updateUserProfile({
@@ -43,7 +42,7 @@ export const authSignInUser =
       await signInWithEmailAndPassword(auth, email, password);
 
       const user = auth.currentUser;
-      console.log("user in authSignInUser:", user);
+
       dispatch(
         authSlice.actions.updateUserProfile({
           userId: user.uid,

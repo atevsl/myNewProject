@@ -15,12 +15,10 @@ import { db } from "../../../firebase/config";
 import { useDispatch, useSelector } from "react-redux";
 
 const Default = ({ navigation, route }) => {
-  console.log("navigation", navigation);
-  console.log("route", route);
-
   const [posts, setPosts] = useState([]);
   const { userId, displayName, email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
+  const [avatar, setAvatar] = useState(null);
 
   const getAllPost = async () => {
     setPosts([]);
@@ -32,18 +30,35 @@ const Default = ({ navigation, route }) => {
     });
   };
 
+  const getAvatar = async () => {
+    const avatarRef = collection(db, "posts");
+    const q = query(avatarRef, where("avatarId", "==", `${userId}`));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      {
+        doc.data().avatar && setAvatar(doc.data().avatar);
+      }
+    });
+  };
+
   useEffect(() => {
     getAllPost();
+    getAvatar();
   }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.containerTitle}>
         <View style={{ flexDirection: "row" }}>
-          <Image
-            style={styles.userPhoto}
-            source={require("../../../assets/noUser.jpg")}
-          />
+          {!avatar && (
+            <Image
+              style={styles.userPhoto}
+              source={require("../../../assets/noUser.jpg")}
+            />
+          )}
+          {avatar && (
+            <Image source={{ uri: avatar }} style={styles.userPhoto} />
+          )}
           <View style={styles.userDeckription}>
             <Text style={styles.userEmail}>{displayName}</Text>
             <Text style={styles.userEmail}>{email}</Text>
