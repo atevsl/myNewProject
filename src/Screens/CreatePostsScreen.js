@@ -41,7 +41,6 @@ const CreatePostsScreen = ({ navigation }) => {
         console.log("Permission granted");
       } else {
         console.log("Permission to access was denied");
-        // return;
       }
     })();
   }, []);
@@ -91,13 +90,13 @@ const CreatePostsScreen = ({ navigation }) => {
     }
   };
 
-  const sendPhoto = () => {
-    uploadPostToServer();
+  const sendPhoto = async () => {
+    await uploadPostToServer();
 
     setTitle("");
     setPlace("");
 
-    navigation.navigate("Default", { refresh: true });
+    navigation.navigate("Default");
   };
 
   return (

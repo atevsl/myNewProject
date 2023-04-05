@@ -34,7 +34,7 @@ export const useRouter = (isAuth) => {
   }
   return (
     <HomeTabs.Navigator
-      screenOptions={({ navigation, route }) => ({
+      screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName = "check";
 
@@ -59,11 +59,7 @@ export const useRouter = (isAuth) => {
         options={{ headerShown: false }}
       />
       <HomeTabs.Screen name="CreatePostsScreen" component={CreatePostsScreen} />
-      <HomeTabs.Screen
-        name="ProfileScreen"
-        component={ProfileScreen}
-        // initialParams={route.params.customState}
-      />
+      <HomeTabs.Screen name="ProfileScreen" component={ProfileScreen} />
     </HomeTabs.Navigator>
   );
 };

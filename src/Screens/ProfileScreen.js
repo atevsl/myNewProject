@@ -8,7 +8,7 @@ import {
   Image,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 
 import {
@@ -23,14 +23,19 @@ import {
 import { db, storage } from "../../firebase/config";
 import { FlatList } from "react-native";
 import * as ImagePicker from "expo-image-picker";
+import { authSignOutUser } from "../../redux/auth/authOperation";
 
-const ProfileScreen = ({ navigation, route }) => {
+const ProfileScreen = ({ navigation }) => {
   const [avatar, setAvatar] = useState(null);
   const [posts, setPosts] = useState([]);
 
   const { userId, displayName } = useSelector((state) => state.auth);
 
+  const dispatch = useDispatch();
+
   const getAllPost = async () => {
+    setPosts([]);
+
     const colRef = collection(db, "posts");
     const q = query(colRef, where("userId", "==", `${userId}`));
     const querySnapshot = await getDocs(q);
@@ -105,9 +110,29 @@ const ProfileScreen = ({ navigation, route }) => {
 
             {avatar && <Image source={{ uri: avatar }} style={styles.avatar} />}
           </View>
+          <TouchableOpacity
+            style={styles.btnReload}
+            activeOpacity={0.8}
+            onPress={() => {
+              getAllPost();
+              getAvatar();
+            }}
+          >
+            <AntDesign name="reload1" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.btnLogOut}
+            onPress={() => {
+              dispatch(authSignOutUser());
+            }}
+          >
+            <AntDesign name="logout" size={24} color="black" />
+          </TouchableOpacity>
           <View style={styles.userDeckription}>
             <Text style={styles.name}>{displayName}</Text>
           </View>
+
           {posts && (
             <FlatList
               data={posts}
@@ -154,10 +179,12 @@ const ProfileScreen = ({ navigation, route }) => {
                         }}
                       >
                         <AntDesign name="like2" size={24} color="black" />
-                        {item.likes && (
-                          <Text style={{ marginLeft: 10 }}>{item.likes}</Text>
-                        )}
+
+                        <Text style={{ marginLeft: 10 }}>
+                          {item.likes ? item.likes : ""}
+                        </Text>
                       </TouchableOpacity>
+
                       <TouchableOpacity
                         style={styles.postDescWrap}
                         activeOpacity={0.8}
@@ -225,6 +252,12 @@ const styles = StyleSheet.create({
   avatarBtnTitle: {
     color: "grey",
   },
+  btnReload: {
+    position: "absolute",
+    top: 30,
+    left: 60,
+  },
+  btnLogOut: { position: "absolute", top: 30, left: 330 },
   name: {
     textAlign: "center",
     fontSize: 30,
@@ -244,9 +277,7 @@ const styles = StyleSheet.create({
   postDescWrap: {
     flexDirection: "row",
   },
-  userDeckription: {
-    paddingTop: 10,
-  },
+  userDeckription: {},
   userEmail: { fontSize: 11, fontFamily: "Roboto-Regular" },
 });
 

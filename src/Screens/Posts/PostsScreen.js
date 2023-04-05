@@ -7,14 +7,10 @@ import { createStackNavigator } from "@react-navigation/stack";
 
 const NestedScreen = createStackNavigator();
 
-const PostsScreen = ({ route }) => {
+const PostsScreen = () => {
   return (
     <NestedScreen.Navigator>
-      <NestedScreen.Screen
-        name="Default"
-        component={Default}
-        initialParams={route.params}
-      />
+      <NestedScreen.Screen name="Default" component={Default} />
       <NestedScreen.Screen name="MapScreen" component={MapScreen} />
       <NestedScreen.Screen name="CommentsScreen" component={CommentsScreen} />
     </NestedScreen.Navigator>

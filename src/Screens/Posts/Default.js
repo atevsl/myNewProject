@@ -16,9 +16,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 const Default = ({ navigation, route }) => {
   const [posts, setPosts] = useState([]);
+  const [avatar, setAvatar] = useState(null);
   const { userId, displayName, email } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
-  const [avatar, setAvatar] = useState(null);
 
   const getAllPost = async () => {
     setPosts([]);
@@ -64,17 +64,29 @@ const Default = ({ navigation, route }) => {
             <Text style={styles.userEmail}>{email}</Text>
           </View>
         </View>
-
-        <TouchableOpacity
-          activeOpacity={0.8}
-          style={styles.btnLogOut}
-          onPress={() => {
-            dispatch(authSignOutUser());
-          }}
-        >
-          <AntDesign name="logout" size={24} color="black" />
-        </TouchableOpacity>
+        <View style={{ flexDirection: "row" }}>
+          <TouchableOpacity
+            style={styles.btnReload}
+            activeOpacity={0.8}
+            onPress={() => {
+              getAllPost();
+              getAvatar();
+            }}
+          >
+            <AntDesign name="reload1" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.btnLogOut}
+            onPress={() => {
+              dispatch(authSignOutUser());
+            }}
+          >
+            <AntDesign name="logout" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
       </View>
+
       {posts && (
         <FlatList
           data={posts}
@@ -153,8 +165,9 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   btnLogOut: {
-    paddingTop: 15,
+    padding: 15,
   },
+  btnReload: { padding: 15 },
   userPhoto: {
     width: 60,
     height: 60,
